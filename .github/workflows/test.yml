@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         include: [
-          { msystem: MINGW64, arch: x86_64, rust_target: x86_64-pc-windows-gnu },
-          # { msystem: MINGW32, arch: i686, rust_target: i686-pc-windows-gnu }
+          { msystem: MINGW64, arch: x86_64, path: mingw64, rust_target: x86_64-pc-windows-gnu },
+          # { msystem: MINGW32, arch: i686, path: mingw32, rust_target: i686-pc-windows-gnu }
         ]
     defaults:
       run:
@@ -32,6 +32,7 @@ jobs:
           install: >-
             gcc
             make
+            mingw-w64-${{ matrix.arch }}-toolchain
             mingw-w64-${{ matrix.arch }}-python
             mingw-w64-${{ matrix.arch }}-cython
             mingw-w64-${{ matrix.arch }}-cmake
@@ -48,6 +49,10 @@ jobs:
           rustup install stable --profile minimal
           rustup default stable
           rustup target add ${{ matrix.rust_target }}          
+
+      - name: Create libpython symlink
+        shell: msys2 {0}
+        run: ln -s /${{ matrix.path }}/lib/libpython3.11.dll.a /${{ matrix.path }}/lib/libpython311.dll.a
 
       - name: Install Poetry
         run: | 
