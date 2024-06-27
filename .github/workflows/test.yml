@@ -1,0 +1,55 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test-mingw:
+    runs-on: windows-latest
+    name: Test mingw-${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: [
+          { msystem: MINGW64, arch: x86_64, path: mingw64, rust_target: x86_64-pc-windows-gnu },
+          # { msystem: MINGW32, arch: i686, path: mingw32, rust_target: i686-pc-windows-gnu }
+        ]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install msys2 and dependencies
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          path-type: inherit
+          msystem: ${{ matrix.msystem }}
+          install: >-
+            mingw-w64-${{ matrix.arch }}-python
+            mingw-w64-${{ matrix.arch }}-python-pip
+            mingw-w64-${{ matrix.arch }}-toolchain
+
+      - name: Install Rustup using win.rustup.rs
+        run: |
+          curl -o rustup-init.exe -sSL https://win.rustup.rs/
+          ./rustup-init.exe -y --default-host=${{ matrix.rust_target }} --profile=minimal
+          rm rustup-init.exe
+
+      - name: Install Rust
+        run: |
+          rustup install stable --profile minimal
+          rustup default stable
+          rustup target add ${{ matrix.rust_target }}          
+
+      - name: Install Poetry
+        run: | 
+          pip install --upgrade poetry --no-binary :all:
+          poetry install
+
+      - name: Build
+        run: poetry run maturin build

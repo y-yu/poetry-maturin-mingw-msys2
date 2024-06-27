@@ -1,0 +1,12 @@
+[package]
+name = "poetry-maturin-mingw-msys2"
+version = "0.0.1"
+edition = "2021"
+
+[dependencies]
+pyo3 = "0.22.0"
+
+[lib]
+name = "poetry-maturin-mingw-msys2"
+crate-type = ["rlib", "dylib"]
+path = "rust/lib.rs"
