@@ -31,8 +31,8 @@ jobs:
           msystem: ${{ matrix.msystem }}
           install: >-
             mingw-w64-${{ matrix.arch }}-python
-            mingw-w64-${{ matrix.arch }}-python-pip
             mingw-w64-${{ matrix.arch }}-toolchain
+            python-pip
 
       - name: Install Rustup using win.rustup.rs
         run: |
