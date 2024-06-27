@@ -31,6 +31,7 @@ jobs:
           msystem: ${{ matrix.msystem }}
           install: >-
             mingw-w64-${{ matrix.arch }}-python
+            mingw-w64-${{ matrix.arch }}-cython
             mingw-w64-${{ matrix.arch }}-toolchain
             python-pip
 
