@@ -55,13 +55,13 @@ jobs:
           export SETUPTOOLS_USE_DISTUTILS=stdlib
           poetry install
 
-      - name: Build
-        run: poetry run maturin build --release
+      - name: Install
+        run: poetry run maturin develop --release
 
       - name: Test
         run: poetry run pytest ./tests
 
-      - name: Generate wheel
+      - name: Build
         run: poetry run maturin build --release --out dist --no-default-features --target ${{ matrix.rust_target }}
 
       - name: Upload artifacts
