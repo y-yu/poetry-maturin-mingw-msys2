@@ -4,9 +4,9 @@ version = "0.0.1"
 edition = "2021"
 
 [dependencies]
-pyo3 = "0.22.0"
+pyo3 = "0.21.2"
 
 [lib]
-name = "poetry-maturin-mingw-msys2"
-crate-type = ["rlib", "dylib"]
+name = "_lib"
+crate-type = ["cdylib"]
 path = "rust/lib.rs"

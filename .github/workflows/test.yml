@@ -30,12 +30,13 @@ jobs:
           path-type: inherit
           msystem: ${{ matrix.msystem }}
           install: >-
-            gcc
-            make
+            mingw-w64-${{ matrix.arch }}-toolchain
             mingw-w64-${{ matrix.arch }}-python
             mingw-w64-${{ matrix.arch }}-cython
+            mingw-w64-${{ matrix.arch }}-python-pip
             mingw-w64-${{ matrix.arch }}-cmake
-            python-pip
+            mingw-w64-${{ matrix.arch }}-python-poetry
+            mingw-w64-${{ matrix.arch }}-python-maturin
 
       - name: Install Rustup using win.rustup.rs
         run: |
@@ -50,9 +51,21 @@ jobs:
           rustup target add ${{ matrix.rust_target }}          
 
       - name: Install Poetry
-        run: | 
-          pip install --upgrade poetry --no-binary :all:
+        run: |
+          export SETUPTOOLS_USE_DISTUTILS=stdlib
           poetry install
 
       - name: Build
-        run: poetry run maturin build
+        run: poetry run maturin build --release
+
+      - name: Test
+        run: poetry run pytest ./tests
+
+      - name: Generate wheel
+        run: poetry run maturin build --release --out dist --no-default-features --target ${{ matrix.rust_target }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello-world ${{ runner.os }} - ${{ matrix.target }}
+          path: dist

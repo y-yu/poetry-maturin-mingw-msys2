@@ -11,8 +11,13 @@ semantic_version = "*"
 
 [tool.poetry.dev-dependencies]
 poetry = ">=1.2.0"
+pytest = "*"
 wheel = "*"
 maturin = "==1.6.0"
+
+[tool.maturin]
+python-source = "python"
+module-name = "hello_world._lib"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "maturin>=1.0,<2.0"]
