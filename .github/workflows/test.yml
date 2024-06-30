@@ -47,12 +47,15 @@ jobs:
         run: |
           rustup install stable --profile minimal
           rustup default stable
-          rustup target add ${{ matrix.rust_target }}          
+          rustup target add ${{ matrix.rust_target }}
 
       - name: Install Poetry
         run: |
           export SETUPTOOLS_USE_DISTUTILS=stdlib
           poetry install
+
+      - name: Create libpython symlink
+        run: ln -s /${{ matrix.path }}/lib/libpython3.11.dll.a /${{ matrix.path }}/lib/libpython311.dll.a
 
       - name: Install
         run: poetry run maturin develop --release
