@@ -31,6 +31,7 @@ jobs:
             gcc
             make
             mingw-w64-${{ matrix.arch }}-python
+            mingw-w64-${{ matrix.arch }}-python-poetry
             mingw-w64-${{ matrix.arch }}-cython
             mingw-w64-${{ matrix.arch }}-cmake
             python-pip
@@ -45,11 +46,12 @@ jobs:
         run: |
           rustup install stable --profile minimal
           rustup default stable
-          rustup target add ${{ matrix.rust_target }}          
+          rustup target add ${{ matrix.rust_target }}      
 
       - name: Install Poetry
-        run: | 
-          pip install --upgrade poetry --no-binary :all:
+        run: |
+          export SETUPTOOLS_USE_DISTUTILS=stdlib
+          # pip install --upgrade poetry --no-binary :all:
           poetry install
 
       - name: Run
