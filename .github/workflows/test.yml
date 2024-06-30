@@ -54,5 +54,5 @@ jobs:
           pip install --upgrade poetry --no-binary :all:
           poetry install
 
-      - name: Build
-        run: poetry run maturin build
+      - name: Run
+        run: poetry run python python/hello_world/main.py
