@@ -67,5 +67,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: hello-world ${{ runner.os }} - ${{ matrix.target }}
+          name: hello-world ${{ runner.os }} - ${{ matrix.rust_target }}
           path: dist
