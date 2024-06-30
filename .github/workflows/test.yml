@@ -34,7 +34,7 @@ jobs:
             mingw-w64-${{ matrix.arch }}-python-pip
             mingw-w64-${{ matrix.arch }}-python-poetry
             mingw-w64-${{ matrix.arch }}-cython
-            mingw-w64-${{ matrix.arch }}-cmake
+            mingw-w64-${{ matrix.arch }}-cmake          
 
       - name: Install Rustup using win.rustup.rs
         run: |
@@ -48,14 +48,17 @@ jobs:
           rustup default stable
           rustup target add ${{ matrix.rust_target }}      
 
-      - name: Create libpython symlink
-        run: ln -s /mingw64/lib/libpython3.11.dll.a /mingw64/lib/libpython311.dll.a
-
-      - name: Install Poetry
-        run: |
-          export SETUPTOOLS_USE_DISTUTILS=stdlib
-          # pip install --upgrade poetry --no-binary :all:
-          poetry install
-
       - name: Run
-        run: poetry run python python/hello_world/main.py
+        run: python python/hello_world/main.py
+
+#      - name: Create libpython symlink
+#        run: ln -s /mingw64/lib/libpython3.11.dll.a /mingw64/lib/libpython311.dll.a
+#
+#      - name: Install Poetry
+#        run: |
+#          export SETUPTOOLS_USE_DISTUTILS=stdlib
+#          # pip install --upgrade poetry --no-binary :all:
+#          poetry install
+#
+#      - name: Run
+#        run: poetry run python python/hello_world/main.py
