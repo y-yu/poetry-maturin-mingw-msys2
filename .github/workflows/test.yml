@@ -34,7 +34,6 @@ jobs:
             mingw-w64-${{ matrix.arch }}-python
             mingw-w64-${{ matrix.arch }}-cython
             mingw-w64-${{ matrix.arch }}-python-pip
-            mingw-w64-${{ matrix.arch }}-cmake
             mingw-w64-${{ matrix.arch }}-python-poetry
             mingw-w64-${{ matrix.arch }}-python-maturin
 
